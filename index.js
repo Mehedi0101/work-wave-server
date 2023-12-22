@@ -29,6 +29,21 @@ async function run() {
             res.send("This is the server of WORKWAVE");
         })
 
+        // getting tasks
+        app.get('/tasks', async (req, res) => {
+            let email = "";
+
+            if (req?.query?.email) {
+                email = req?.query?.email;
+            }
+
+            const query = {
+                user: email
+            }
+            const result = await taskCollection.find(query).toArray();
+            res.send(result);
+        })
+
         // adding a new task
         app.post('/tasks', async (req, res) => {
             const task = req.body;
@@ -36,8 +51,29 @@ async function run() {
             res.send(result);
         })
 
-        // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        // update a task status
+        app.patch('/tasks/status/:id', async (req, res) => {
+            const id = req.params.id;
+            const status = req.body.status;
+            console.log(id, status);
+            const filter = { _id: new ObjectId(id) };
+            const updatedTask = {
+                $set: {
+                    status: status
+                }
+            }
+            const result = await taskCollection.updateOne(filter, updatedTask);
+            res.send(result);
+        })
+
+        // delete a task
+        app.delete('/tasks/delete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await taskCollection.deleteOne(query);
+            res.send(result);
+        })
+
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
 
