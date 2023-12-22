@@ -59,11 +59,26 @@ async function run() {
             res.send(result);
         })
 
+        // update a task
+        app.patch('/tasks/update/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const updatedTask = {
+                $set: {
+                    title: req.body.title,
+                    deadline: req.body.deadline,
+                    priority: req.body.priority,
+                    details: req.body.details
+                }
+            }
+            const result = await taskCollection.updateOne(filter, updatedTask);
+            res.send(result);
+        })
+
         // update a task status
         app.patch('/tasks/status/:id', async (req, res) => {
             const id = req.params.id;
             const status = req.body.status;
-            console.log(id, status);
             const filter = { _id: new ObjectId(id) };
             const updatedTask = {
                 $set: {
