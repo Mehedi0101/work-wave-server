@@ -6,7 +6,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: ['http://localhost:5173'],
+    origin: ['https://work-wave-f93a2.web.app','https://console.firebase.google.com/project/work-wave-f93a2/overview'],
     credentials: true
 }));
 app.use(express.json());
@@ -96,8 +96,6 @@ async function run() {
             const result = await taskCollection.deleteOne(query);
             res.send(result);
         })
-
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
 
     }
