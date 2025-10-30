@@ -6,12 +6,14 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: ['https://work-wave-f93a2.web.app','https://console.firebase.google.com/project/work-wave-f93a2/overview'],
+    origin: ['https://work-wave-01.web.app', 'https://console.firebase.google.com/u/0/project/work-wave-01/overview', 'http://localhost:5173'],
     credentials: true
 }));
 app.use(express.json());
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.gxsfvvy.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mycluster.blpor7q.mongodb.net/?appName=MyCluster`;
+
+
 
 const client = new MongoClient(uri, {
     serverApi: {
